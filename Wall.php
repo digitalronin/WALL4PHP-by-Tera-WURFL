@@ -54,6 +54,14 @@ function wall_debug($str) {
         error_log($str);
 }
 
+function getUserAgent() {
+  if (isset($_SERVER['HTTP_X_OPERAMINI_PHONE_UA'])) {
+    return $_SERVER['HTTP_X_OPERAMINI_PHONE_UA'];
+  } else {
+    return $_SERVER['HTTP_USER_AGENT'];
+  }
+}
+
 wall_debug('');
 
 register_shutdown_function('wall_shutdown_callback');
@@ -103,7 +111,7 @@ class Wall {
     			case 2:
 	        		// The class file was loaded in wall_prepend.php
 	        		$this->wurfl = new TeraWurfl();
-	        		if(!$ua) $this->ua = WurflSupport::getUserAgent();
+              if(!$ua) $this->ua = getUserAgent();
 	        		$this->wurfl->getDeviceCapabilitiesFromAgent($this->ua);
 	        		break;
     			case 'webservice':
